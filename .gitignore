@@ -1,0 +1,4 @@
+# Project exclude paths
+/MVC/target/
+/out/
+/Spring_ioc/target/

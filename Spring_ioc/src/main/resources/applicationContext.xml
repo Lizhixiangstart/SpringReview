@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+">
+
+    <bean id="userDao" class="ioc.dao.impl.UserDaoImpl" scope="singleton" >
+    </bean>
+
+    <bean id="userDao1" class="ioc.factory.StaticFactory" factory-method="getUserDao">
+    </bean>
+
+    <bean id="factory" class="ioc.factory.DynamicFactory"></bean>
+    <bean id="userDao2" factory-bean="factory" factory-method="getUserDao"></bean>
+
+
+
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+<!--    <bean id="c3p0" class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
+<!--        <property name="driverClass" value="${jdbc.driverClassName}"/>-->
+<!--        <property name="jdbcUrl" value="${jdbc.Connectionurl}"/>-->
+<!--        <property name="user" value="${jdbc.username}"/>-->
+<!--        <property name="password" value="${jdbc.password}"/>-->
+<!--    </bean>-->
+    <bean id="druid" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.Connectionurl}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <bean id="JdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+<!--        <property name="dataSource" ref="c3p0"/>-->
+        <property name="dataSource" ref="druid"/>
+    </bean>
+
+</beans>
